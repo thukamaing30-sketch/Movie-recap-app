@@ -20,12 +20,27 @@ if st.button("🚀 Movie Recap စတင်ဖန်တီးမည်"):
             try:
                 genai.configure(api_key=gemini_api_key)
                 
-                # အမှန်ကန်ဆုံး အလုပ်လုပ်မည့် မော်ဒယ်နာမည်
-                model = genai.GenerativeModel("gemini-2.0-flash")
+                # အဆင်ပြေနိုင်မယ့် မော်ဒယ်နာမည်များကို စာရင်းပြုစုထားခြင်း
+                models_to_try = ["gemini-3.8-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-pro"]
+                response = None
+                success = False
+                last_error = None
                 
-                response = model.generate_content("You are a professional movie recap scriptwriter. ဒီဗီဒီယိုအတွက် ဇာတ်လမ်းအကျဉ်း ဇာတ်ညွှန်း ရေးပေးပါ။")
+                for m_name in models_to_try:
+                    try:
+                        model = genai.GenerativeModel(m_name)
+                        response = model.generate_content("You are a professional movie recap scriptwriter. ဒီဗီဒီယိုအတွက် ဇာတ်လမ်းအကျဉ်း ဇာတ်ညွှန်း ရေးပေးပါ။")
+                        success = True
+                        break
+                    except Exception as err:
+                        last_error = err
+                        continue
                 
-                st.success("ဇာတ်ညွှန်း အောင်မြင်စွာ ထွက်ရှိလာပါပြီ!")
-                st.write(response.text)
+                if success and response:
+                    st.success("ဇာတ်ညွှန်း အောင်မြင်စွာ ထွက်ရှိလာပါပြီ!")
+                    st.write(response.text)
+                else:
+                    st.error(f"အမှားအယွင်းရှိနေပါသည်။ မော်ဒယ်များအားလုံး ချိတ်ဆက်၍ မရပါ: {last_error}")
+                    
             except Exception as e:
                 st.error(f"အမှားအယွင်းရှိနေပါသည်။ {e}")
