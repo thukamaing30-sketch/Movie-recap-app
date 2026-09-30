@@ -2,10 +2,10 @@ import os
 import streamlit as st
 import google.generativeai as genai
 
-st.set_page_config(page_title="AI Movie Recap Generator (Gemini Free)")
-st.title("🎬 Movie Recap ဖန်တီးပေးမည် (Gemini)")
+st.set_page_config(page_title="AI Movie Recap Generator")
+st.title("🎬 Movie Recap ဖန်တီးပေးမည်")
 
-# Render ၏ Environment Variable မှ Gemini API Key ကို ယူခြင်း
+# Render မှ Gemini API Key ကို ယူခြင်း
 gemini_api_key = os.environ.get("GEMINI_API_KEY")
 
 uploaded_file = st.file_uploader("ဇာတ်ကား ဗီဒီယိုဖိုင်ကို တင်ပါ (MP4 format)", type=["mp4"])
@@ -20,7 +20,8 @@ if st.button("🚀 Movie Recap စတင်ဖန်တီးမည်"):
         with st.spinner("AI မှ ဇာတ်ညွှန်းရေးနေပြီ..."):
             try:
                 genai.configure(api_key=gemini_api_key)
-                # Google ၏ Gemini မော်ဒယ်ကို အသုံးပြုခြင်း
+                
+                # မော်ဒယ်အမည်ကို အမှန်ကန်ဆုံးဖြစ်အောင် ပြင်ဆင်ထားခြင်း
                 model = genai.GenerativeModel("gemini-1.5-flash")
                 
                 response = model.generate_content("You are a professional movie recap scriptwriter. ဒီဗီဒီယိုအတွက် ဇာတ်လမ်းအကျဉ်း ဇာတ်ညွှန်း ရေးပေးပါ။")
