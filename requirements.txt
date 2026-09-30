@@ -1,4 +1,2 @@
 streamlit
-openai
-elevenlabs
-requests
+google-generativeai
